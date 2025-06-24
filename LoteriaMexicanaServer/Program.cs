@@ -1,5 +1,6 @@
 using LoteriaMexicanaServer.Hubs;
 using LoteriaMexicanaServer.Managers;
+using LoteriaMexicanaServer.Services;
 using Microsoft.AspNetCore.Http.Connections;
 using TypedSignalR.Client.DevTools;
 
@@ -16,8 +17,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<GameManager>();
+builder.Services.AddSingleton<GameRoomManager>();
 builder.Services.AddSingleton<PlayerManager>();
+builder.Services.AddSingleton<GameActionsService>();
+builder.Services.AddSingleton<PlayerService>();
 
 var app = builder.Build();
 

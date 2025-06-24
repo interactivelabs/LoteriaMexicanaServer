@@ -2,7 +2,7 @@ using LoteriaMexicanaServer.Models;
 
 namespace LoteriaMexicanaServer.Managers;
 
-public class GameManager
+public class GameRoomManager
 {
     private readonly List<GameRoom> _gameRooms = [];
 
