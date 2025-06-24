@@ -1,8 +1,6 @@
 namespace LoteriaMexicanaServer.Models;
 
-public class Player
+public record Player : LoteriaMexicanaTypes.Records.Player
 {
-    public string Id { get; set; } = string.Empty;
-    public string DisplayName { get; set; } = string.Empty;
     public string CurrentRoom { get; set; } = string.Empty;
 }

@@ -5,10 +5,7 @@ using TypedSignalR.Client.DevTools;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSignalR(options =>
-{
-    options.EnableDetailedErrors = true;
-}).AddJsonProtocol();
+builder.Services.AddSignalR(options => { options.EnableDetailedErrors = true; }).AddJsonProtocol();
 
 builder.Services.AddCors(options =>
 {
@@ -36,9 +33,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 
-app.MapHub<GameHub>("/gamehub", options =>
-{
-    options.Transports = HttpTransportType.WebSockets;
-});
+app.MapHub<GameHub>("/gamehub", options => { options.Transports = HttpTransportType.WebSockets; });
 
 app.Run();

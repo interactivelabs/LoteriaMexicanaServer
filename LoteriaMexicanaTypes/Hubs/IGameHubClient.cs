@@ -4,6 +4,6 @@ namespace LoteriaMexicanaTypes.Hubs;
 
 public interface IGameHubClient
 {
-    Task OnGameRoomEnter(string playerId, GameRoom gameRoom);
+    Task OnGameRoomEnter(Player player, GameRoom gameRoom);
     Task OnGameRoomLeave(string playerId);
 }

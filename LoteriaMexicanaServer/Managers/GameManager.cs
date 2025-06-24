@@ -13,8 +13,12 @@ public class GameManager
         {
             Id = uniqueId.ToString(),
             DisplayName = displayName,
-            Seeder = Guid.NewGuid().GetHashCode()
+            Seeder = Guid.NewGuid().GetHashCode(),
+            Players = []
         };
+
+        gameRoom.Sheets = SheetsManager.GetNewSheets(gameRoom.PlayersLimit, gameRoom.Seeder);
+
         _gameRooms.Add(gameRoom);
         return gameRoom;
     }
@@ -37,6 +41,7 @@ public class GameManager
     {
         var gameRoom = _gameRooms.FirstOrDefault(x => x.Id == gameRoomId);
         if (gameRoom == null) throw new Exception("Game room not found");
+
 
         gameRoom.Players.Remove(player);
     }

@@ -4,6 +4,7 @@ using LoteriaMexicanaTypes.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using TypedSignalR.Client;
 using Player = LoteriaMexicanaServer.Models.Player;
+using PlayerRecord = LoteriaMexicanaTypes.Records.Player;
 
 namespace LoteriaMexicanaServer.Hubs;
 
@@ -30,7 +31,14 @@ public class GameHub(GameManager gameManager, PlayerManager playerManager) : Hub
 
         var gameRoom = gameManager.GetFirstEmptyRoom() ?? gameManager.CreateGameRoom();
 
+        var availableSheet = gameRoom.Sheets.FirstOrDefault(sheet => !gameRoom.PlayerSheets.ContainsKey(sheet.Id));
+        if (availableSheet == null) throw new Exception("No available sheets");
+
+        gameRoom.PlayerSheets.Add(availableSheet.Id, player.Id);
+
         player.CurrentRoom = gameRoom.Id;
+        player.MySheet = availableSheet;
+
         gameManager.AddPlayer(player, gameRoom.Id);
 
         var roomRecord = new GameRoom
@@ -41,8 +49,15 @@ public class GameHub(GameManager gameManager, PlayerManager playerManager) : Hub
             Full = gameRoom.Full
         };
 
+        var playerRecord = new PlayerRecord
+        {
+            Id = player.Id,
+            DisplayName = player.DisplayName,
+            MySheet = player.MySheet
+        };
+
         await Groups.AddToGroupAsync(connectionId, gameRoom.Id);
-        await Clients.Group(gameRoom.Id).OnGameRoomEnter(player.Id, roomRecord);
+        await Clients.Group(gameRoom.Id).OnGameRoomEnter(playerRecord, roomRecord);
     }
 
     public async Task LeaveRoom()
@@ -55,8 +70,9 @@ public class GameHub(GameManager gameManager, PlayerManager playerManager) : Hub
         gameManager.RemovePlayer(player, gameRoomId);
         if (gameManager.IsRoomEmpty(gameRoomId)) gameManager.RemoveRoom(gameRoomId);
 
+        playerManager.RemovePlayer(player);
+
         await Clients.Group(gameRoomId).OnGameRoomLeave(player.Id);
         await Groups.RemoveFromGroupAsync(connectionId, gameRoomId);
-
     }
 }

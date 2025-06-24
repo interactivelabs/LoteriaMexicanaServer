@@ -20,9 +20,4 @@ public class PlayerManager
     {
         return _players.FirstOrDefault(x => x.Id == id);
     }
-
-    public int GetNumberOfPlayers()
-    {
-        return _players.Count;
-    }
 }
