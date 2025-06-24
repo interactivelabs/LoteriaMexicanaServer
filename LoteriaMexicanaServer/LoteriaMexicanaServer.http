@@ -1,6 +1,0 @@
-@LoteriaMexicanaServer_HostAddress = http://localhost:5110
-
-GET {{LoteriaMexicanaServer_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
