@@ -33,7 +33,13 @@ public class GameHub(GameManager gameManager, PlayerManager playerManager) : Hub
         player.CurrentRoom = gameRoom.Id;
         gameManager.AddPlayer(player, gameRoom.Id);
 
-        GameRoom roomRecord = new(gameRoom.Id, gameRoom.DisplayName, gameRoom.Seeder, gameRoom.Full);
+        var roomRecord = new GameRoom
+        {
+            Id = gameRoom.Id,
+            DisplayName = gameRoom.DisplayName,
+            Seeder = gameRoom.Seeder,
+            Full = gameRoom.Full
+        };
 
         await Groups.AddToGroupAsync(connectionId, gameRoom.Id);
         await Clients.Group(gameRoom.Id).OnGameRoomEnter(player.Id, roomRecord);

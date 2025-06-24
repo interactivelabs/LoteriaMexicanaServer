@@ -1,11 +1,7 @@
 namespace LoteriaMexicanaServer.Models;
 
-public class GameRoom(int playersLimit = 10)
+public record GameRoom(int PlayersLimit = 10) : LoteriaMexicanaTypes.Records.GameRoom
 {
-    public string Id { get; init; } = string.Empty;
-    public string DisplayName { get; set; } = string.Empty;
-    public int Seeder { get; set; }
-    public int PlayersLimit { get; set; } = playersLimit;
-    public bool Full { get; set; }
+    public int PlayersLimit { get; set; } = PlayersLimit;
     public List<Player> Players { get; set; } = [];
 }
