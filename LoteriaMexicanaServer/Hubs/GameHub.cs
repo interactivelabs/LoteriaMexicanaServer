@@ -11,7 +11,8 @@ public interface IServerGameHub : IGameHub;
 [Receiver]
 public interface IServerGameHubClient : IGameHubClient;
 
-public class GameHub(GameActionsService gameActionsService, PlayerService playerService) : Hub<IServerGameHubClient>, IServerGameHub
+public class GameHub(GameActionsService gameActionsService, PlayerService playerService)
+    : Hub<IServerGameHubClient>, IServerGameHub
 {
     //create player information on connection start
     public override Task OnConnectedAsync()
@@ -32,7 +33,7 @@ public class GameHub(GameActionsService gameActionsService, PlayerService player
     public async Task LeaveRoom()
     {
         var connectionId = Context.ConnectionId;
-        var (playerId, gameRoomId) = gameActionsService.PlayerLeftGame(connectionId);
+        var (playerId, gameRoomId) = gameActionsService.PlayerLeftGameRoom(connectionId);
 
         await Clients.Group(gameRoomId).OnGameRoomLeave(playerId);
         await Groups.RemoveFromGroupAsync(connectionId, gameRoomId);

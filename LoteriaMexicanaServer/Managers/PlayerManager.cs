@@ -11,11 +11,6 @@ public class PlayerManager
         _players.Add(player);
     }
 
-    public void RemovePlayer(Player player)
-    {
-        _players.Remove(player);
-    }
-
     public Player? GetPlayerById(string id)
     {
         return _players.FirstOrDefault(x => x.Id == id);

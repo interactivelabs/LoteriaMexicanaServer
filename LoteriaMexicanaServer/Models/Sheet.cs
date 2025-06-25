@@ -13,6 +13,6 @@ public record Sheet : LoteriaMexicanaTypes.Records.Sheet
             .Take(16)
             .OrderBy(card => card.Id)
             .Select(card => card.Id)
-            .ToArray();
+            .ToList();
     }
 }

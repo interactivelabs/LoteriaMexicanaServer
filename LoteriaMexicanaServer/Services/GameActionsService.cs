@@ -40,12 +40,11 @@ public class GameActionsService(GameRoomManager gameRoomManager, PlayerManager p
         return (roomRecord, playerRecord);
     }
 
-    public (string playerId, string roomId) PlayerLeftGame(string connectionId)
+    public (string playerId, string roomId) PlayerLeftGameRoom(string connectionId)
     {
         var player = playerManager.GetPlayerById(connectionId);
         if (player == null) throw new Exception("Player not found");
 
-        playerManager.RemovePlayer(player);
         gameRoomManager.RemovePlayer(player, player.CurrentRoom);
         if (gameRoomManager.IsRoomEmpty(player.CurrentRoom)) gameRoomManager.RemoveRoom(player.CurrentRoom);
 

@@ -1,6 +1,7 @@
 using LoteriaMexicanaServer.Hubs;
 using LoteriaMexicanaServer.Managers;
 using LoteriaMexicanaServer.Services;
+using LoteriaMexicanaTypes.Models;
 using Microsoft.AspNetCore.Http.Connections;
 using TypedSignalR.Client.DevTools;
 

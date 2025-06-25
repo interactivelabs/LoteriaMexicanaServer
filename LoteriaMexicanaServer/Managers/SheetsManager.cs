@@ -31,7 +31,7 @@ public static class SheetsManager
 
     private static bool SheetExists(Sheet newSheet, List<Sheet> currentSheets)
     {
-        return currentSheets.Any(sheet => newSheet.CardIds.Length == sheet.CardIds.Length &&
+        return currentSheets.Any(sheet => newSheet.CardIds.Count == sheet.CardIds.Count &&
                                           newSheet.CardIds.All(card => sheet.CardIds.Contains(card)));
     }
 }
