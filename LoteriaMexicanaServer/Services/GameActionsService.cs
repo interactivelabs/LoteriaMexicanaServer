@@ -1,3 +1,4 @@
+using LoteriaMexicanaServer.Constants;
 using LoteriaMexicanaServer.Managers;
 using LoteriaMexicanaTypes.Records;
 
@@ -49,5 +50,26 @@ public class GameActionsService(GameRoomManager gameRoomManager, PlayerManager p
         if (gameRoomManager.IsRoomEmpty(player.CurrentRoom)) gameRoomManager.RemoveRoom(player.CurrentRoom);
 
         return (player.Id, player.CurrentRoom);
+    }
+
+    public bool PlayerCalledLoteria(Models.Player player, Dictionary<int, bool> checkedCards)
+    {
+        var winningPatterns = WinningPatterns.GetAllPatterns();
+
+        foreach (var pattern in winningPatterns)
+        {
+            var isWinner = pattern.All(cardIndex =>
+            {
+                var cardId = player.MySheet.CardIds[cardIndex];
+                return checkedCards.TryGetValue(cardId, out var isChecked) && isChecked;
+            });
+
+            if (isWinner)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
