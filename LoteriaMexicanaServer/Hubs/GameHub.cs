@@ -38,4 +38,25 @@ public class GameHub(GameActionsService gameActionsService, PlayerService player
         await Clients.Group(gameRoomId).OnGameRoomLeave(playerId);
         await Groups.RemoveFromGroupAsync(connectionId, gameRoomId);
     }
+
+    public async Task CallLoteria(Dictionary<int, bool> checkedCards)
+    {
+        var connectionId = Context.ConnectionId;
+        var player = playerService.GetPlayerById(connectionId);
+
+        if (player == null) throw new Exception("Player not found");
+
+        var isWinner = gameActionsService.PlayerCalledLoteria(player, checkedCards);
+
+        if (isWinner)
+        {
+            await Clients.Caller.OnGameWinner();
+            await Clients.Group(player.CurrentRoom).OnPlayerWon(player.Id);
+        }
+        else
+        {
+            await Clients.Caller.OnGameLost();
+            await Clients.Group(player.CurrentRoom).OnPlayerLost(player.Id);
+        }
+    }
 }

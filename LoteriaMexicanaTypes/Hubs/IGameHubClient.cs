@@ -11,4 +11,12 @@ public interface IGameHubClient
     Task OnGameRoomEnter(Player player, GameRoom gameRoom);
 
     Task OnGameRoomLeave(string playerId);
+
+    Task OnGameWinner();
+
+    Task OnPlayerWon(string playerId);
+
+    Task OnGameLost();
+
+    Task OnPlayerLost(string playerId);
 }

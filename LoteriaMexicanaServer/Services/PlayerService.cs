@@ -10,4 +10,6 @@ public class PlayerService(PlayerManager playerManager)
         var player = new Models.Player { Id = connectionId };
         playerManager.AddPlayer(player);
     }
+
+    public Models.Player? GetPlayerById(string id) => playerManager.GetPlayerById(id);
 }
