@@ -52,7 +52,7 @@ public class GameActionsService(GameRoomManager gameRoomManager, PlayerManager p
         return (player.Id, player.CurrentRoom);
     }
 
-    public bool PlayerCalledLoteria(Models.Player player, Dictionary<int, bool> checkedCards)
+    public static bool PlayerCalledLoteria(Models.Player player, Dictionary<int, bool> checkedCards)
     {
         var winningPatterns = WinningPatterns.GetAllPatterns();
 

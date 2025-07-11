@@ -11,7 +11,6 @@ public record Sheet : LoteriaMexicanaTypes.Records.Sheet
         CardIds = AllCards.All
             .OrderBy(_ => random.Next())
             .Take(16)
-            .OrderBy(card => card.Id)
             .Select(card => card.Id)
             .ToList();
     }

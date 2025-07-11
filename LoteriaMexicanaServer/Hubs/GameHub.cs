@@ -26,8 +26,8 @@ public class GameHub(GameActionsService gameActionsService, PlayerService player
         var (gameRoom, player) = gameActionsService.PlayerJoinRoom(connectionId);
 
         await Groups.AddToGroupAsync(connectionId, gameRoom.Id);
-        await Clients.Group(gameRoom.Id).OnPlayerEnteredGameRoom(player, gameRoom);
-        await Clients.Caller.OnGameRoomEnter(player, gameRoom);
+        await Clients.Group(gameRoom.Id).PlayerEnteredRoom(player, gameRoom);
+        await Clients.Caller.RoomEnter(player, gameRoom);
     }
 
     public async Task LeaveRoom()
@@ -35,7 +35,7 @@ public class GameHub(GameActionsService gameActionsService, PlayerService player
         var connectionId = Context.ConnectionId;
         var (playerId, gameRoomId) = gameActionsService.PlayerLeftGameRoom(connectionId);
 
-        await Clients.Group(gameRoomId).OnGameRoomLeave(playerId);
+        await Clients.Group(gameRoomId).RoomLeave(playerId);
         await Groups.RemoveFromGroupAsync(connectionId, gameRoomId);
     }
 
@@ -46,17 +46,17 @@ public class GameHub(GameActionsService gameActionsService, PlayerService player
 
         if (player == null) throw new Exception("Player not found");
 
-        var isWinner = gameActionsService.PlayerCalledLoteria(player, checkedCards);
+        var isWinner = GameActionsService.PlayerCalledLoteria(player, checkedCards);
 
         if (isWinner)
         {
-            await Clients.Caller.OnGameWinner();
-            await Clients.Group(player.CurrentRoom).OnPlayerWon(player.Id);
+            await Clients.Caller.GameWinner();
+            await Clients.Group(player.CurrentRoom).PlayerWon(player.Id);
         }
         else
         {
-            await Clients.Caller.OnGameLost();
-            await Clients.Group(player.CurrentRoom).OnPlayerLost(player.Id);
+            await Clients.Caller.GameLost();
+            await Clients.Group(player.CurrentRoom).PlayerLost(player.Id);
         }
     }
 }
